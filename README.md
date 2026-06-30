@@ -220,10 +220,6 @@ ai_profiler/
 │   ├── config.json            # Configuración persistente (auto-creado)
 │   └── scan_errors.txt        # Log de errores de escaneo (auto-creado)
 │
-├── docs/                      # Documentación adicional
-│   ├── README.md
-│   ├── INSTALLATION.md
-│   └── AI PROFILER.md
 │
 ├── scripts/                   # Scripts auxiliares
 ├── tests/                     # Tests unitarios
