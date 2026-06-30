@@ -166,7 +166,7 @@ Al iniciar por primera vez, la app detecta el locale del sistema (`locale.getdef
 
 ### Repositorio de traducciones
 Para colaborar con nuevas traducciones o actualizar las existentes, visita:
-**github.com/jgarvidsson/lenguages/ia_profiler/1.0/**
+**github.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0**
 (Disponible como enlace en la pestaña Acerca de de la aplicación.)
 
 > El repositorio de idiomas es independiente del repositorio de la aplicación.  

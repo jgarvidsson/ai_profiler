@@ -121,7 +121,7 @@
     "config.about.tech": "Python + Tkinter | SQLite | HuggingFace API",
     "config.about.license": "Licencia: MIT",
     "config.about.collab": "Colabora con traducciones",
-    "config.about.collab_desc": "Repositorio de idiomas:\ngithub.com/jgarvidsson/lenguages/ia_profiler/1.0/",
+    "config.about.collab_desc": "Repositorio de idiomas:\ngithub.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0",
     "config.about.collab_btn": "Abrir GitHub",
     "config.about.check_btn": "Buscar actualizaciones",
     "config.about.check_done": "Idiomas actualizados: {count}"
