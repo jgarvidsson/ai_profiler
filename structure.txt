@@ -1,0 +1,123 @@
+PERFILADOR-IA - ESTRUCTURA DEL PROYECTO
+========================================
+
+perfilador-ia/
+├── src/
+│   ├── __init__.py
+│   ├── hardware_profiler.py      # Perfilador de hardware (independiente)
+│   ├── model_database.py         # Gestión de BD local (SQLite)
+│   ├── model_fetcher.py          # Búsqueda de modelos (VRAM.io + HF)
+│   ├── recommendation_engine.py  # Motor de recomendación
+│   └── main.py                   # Punto de entrada (CLI)
+├── gui/
+│   ├── __init__.py
+│   ├── app.py                    # Aplicación Tkinter
+│   ├── styles.py                 # Estilos y temas
+│   ├── tabs/
+│   │   ├── __init__.py
+│   │   ├── search_tab.py         # Pestaña 1: Búsqueda
+│   │   └── display_tab.py        # Pestaña 2: Visualización
+│   └── widgets/
+│       ├── __init__.py
+│       ├── terminal_frame.py     # Frame estilo terminal
+│       └── model_card.py         # Tarjeta de modelo
+├── data/
+│   └── models.db                 # Base de datos SQLite (se crea automáticamente)
+├── docs/
+│   └── (archivos markdown anteriores)
+├── requirements.txt
+├── structure.txt
+└── run_gui.py                    # Punto de entrada para GUI
+
+DESCRIPCIÓN DE ARCHIVOS PRINCIPALES
+====================================
+
+src/hardware_profiler.py
+------------------------
+- Clase HardwareProfiler
+- Detecta CPU, RAM, GPU, VRAM, disco
+- Genera reportes de hardware
+
+src/model_database.py
+---------------------
+- Clase ModelDatabase
+- Contiene base de datos de modelos de IA
+- Métodos para actualizar desde repositorio
+
+src/recommendation_engine.py
+----------------------------
+- Clase RecommendationEngine
+- Evalúa compatibilidad hardware-modelo
+- Genera recomendaciones personalizadas
+
+src/main.py
+-----------
+- Punto de entrada principal
+- Interfaz de usuario en consola
+- Exportación de resultados
+
+docs/
+-----
+- Documentación completa del proyecto
+- Guías de instalación y uso
+- Referencia técnica
+
+tests/
+------
+- Pruebas unitarias con pytest
+- Cobertura de código
+
+data/
+-----
+- Almacenamiento persistente
+- Cache para mejorar rendimiento
+
+scripts/
+--------
+- Herramientas auxiliares
+- Actualización y exportación
+
+REQUISITOS DE INSTALACIÓN
+==========================
+
+Sistema operativo:
+- Linux (Ubuntu 20.04+)
+- Windows 10/11
+- macOS 11+
+
+Python:
+- Python 3.8 o superior
+
+Dependencias principales:
+- psutil: Información del sistema
+- GPUtil: Información de GPU
+- pynvml: API de NVIDIA
+- requests: Peticiones HTTP
+
+Hardware recomendado:
+- Mínimo: 4GB RAM, CPU de 4 núcleos
+- Recomendado: 16GB RAM, GPU con 8GB VRAM
+- Para modelos grandes: 32GB+ RAM, GPU con 16GB+ VRAM
+
+USO BÁSICO
+===========
+
+1. Instalar dependencias:
+   pip install -r requirements.txt
+
+2. Ejecutar el perfilador:
+   python src/main.py
+
+3. Exportar resultados:
+   Opción disponible en el menú interactivo
+
+PARA MÁS INFORMACIÓN
+====================
+
+- Consulta la documentación en docs/
+- Revisa el README.md para una descripción general
+- Lee INSTALLATION.md para guía detallada de instalación
+- Consulta USAGE.md para ejemplos de uso
+
+VERSIÓN ACTUAL: 1.0.0
+FECHA: 2026-06-30

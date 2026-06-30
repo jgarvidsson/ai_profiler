@@ -1,0 +1,68 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Datos generados en tiempo de ejecucion (no subir)
+data/
+
+# Documentacion interna (privada)
+docs/
+
+# Reportes generados
+recomendacion_modelos.json
+reporte_*.txt
+*.html
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+*.cover
+
+# Docker
+*.tar.gz
+*.tar
+docker-compose.override.yml
+
+# Variables de entorno
+.env
+.env.local
+.env.*.local
+
+# Scripts locales del entorno
+00_Abrir*.bat
+
+# Archivos de sistema
+Thumbs.db
+desktop.ini
