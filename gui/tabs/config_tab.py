@@ -188,7 +188,7 @@ class ConfigTab(ttk.Frame):
                  style='Terminal.Header.TLabel').pack(pady=(0, 5))
 
         ttk.Label(frame,
-                 text="github.com/jgarvidsson/lenguages/ia_profiler/1.0/",
+                 text="github.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0",
                  style='Terminal.Subtitle.TLabel',
                  foreground='#4A9EFF').pack()
 
@@ -199,7 +199,7 @@ class ConfigTab(ttk.Frame):
 
         def open_github():
             import webbrowser
-            webbrowser.open("https://github.com/jgarvidsson/lenguages/ia_profiler/1.0/")
+            webbrowser.open("https://github.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0")
 
         ttk.Button(frame,
                   text=self.lang.get("config.about.collab_btn"),
@@ -207,9 +207,86 @@ class ConfigTab(ttk.Frame):
                   command=open_github).pack(pady=5)
 
         def check_lang_updates():
-            count = len(self.lang.get_available_languages())
-            msg = self.lang.get("config.about.check_done").replace('{count}', str(count))
-            messagebox.showinfo(self.lang.get("config.about.collab"), msg)
+            L = self.lang
+            try:
+                import requests
+                api_url = "https://api.github.com/repos/jgarvidsson/lenguages/contents/ia_profiler/1.0"
+                headers = {}
+                token = self.settings.get('github_token', '')
+                if token:
+                    headers['Authorization'] = f'token {token}'
+                resp = requests.get(api_url, headers=headers, timeout=10)
+
+                if resp.status_code == 404:
+                    msg = ("Repositorio no encontrado o privado.\n\n"
+                           "Si el repo es privado, necesitas un token de GitHub:\n"
+                           "1. Ve a GitHub -> Settings -> Developer settings -> Personal access tokens\n"
+                           "2. Crea un token con permiso 'repo'\n"
+                           "3. Agregalo en data/config.json:\n"
+                           '   "github_token": "tu_token"\n\n'
+                           "O haz el repo publico para actualizacion automatica.")
+                    messagebox.showwarning(L.get("config.about.check_btn"), msg)
+                    webbrowser.open("https://github.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0")
+                    return
+                if resp.status_code == 403:
+                    msg = ("Límite de API de GitHub alcanzado.\n"
+                           "Espera unos minutos o agrega un token en data/config.json:\n"
+                           '   "github_token": "tu_token"')
+                    messagebox.showwarning(L.get("config.about.check_btn"), msg)
+                    return
+                if resp.status_code != 200:
+                    msg = f"Error HTTP {resp.status_code}. Abre el enlace manualmente."
+                    messagebox.showwarning(L.get("config.about.check_btn"), msg)
+                    webbrowser.open("https://github.com/jgarvidsson/lenguages/tree/main/ia_profiler/1.0")
+                    return
+
+                remote_files = resp.json()
+                if not isinstance(remote_files, list):
+                    msg = "Estructura del repositorio no reconocida."
+                    messagebox.showwarning(L.get("config.about.check_btn"), msg)
+                    return
+
+                remote_langs = {}
+                for f in remote_files:
+                    if f['name'].endswith('.json') and f['type'] == 'file':
+                        code = f['name'].replace('.json', '')
+                        remote_langs[code] = f['download_url']
+
+                lang_dir = Path(__file__).parent.parent.parent / "languages"
+                local_langs = {f.stem for f in lang_dir.glob("*.json")}
+
+                new_langs = {k: v for k, v in remote_langs.items() if k not in local_langs}
+
+                if not new_langs:
+                    msg = L.get("config.about.check_done").replace('{count}', str(len(remote_langs)))
+                    messagebox.showinfo(L.get("config.about.collab"), msg)
+                    return
+
+                codes = ', '.join(sorted(new_langs.keys()))
+                msg = (f"Idiomas remotos: {', '.join(sorted(remote_langs.keys()))}\n"
+                       f"Nuevos (no en local): {codes}\n\n"
+                       "Descargar idiomas nuevos?")
+                if messagebox.askyesno(L.get("config.about.collab"), msg):
+                    downloaded = 0
+                    for code, url in new_langs.items():
+                        try:
+                            r = requests.get(url, timeout=10)
+                            if r.status_code == 200:
+                                filepath = lang_dir / f"{code}.json"
+                                with open(filepath, 'w', encoding='utf-8') as f:
+                                    f.write(r.text)
+                                downloaded += 1
+                        except:
+                            pass
+                    msg = f"Descargados {downloaded} de {len(new_langs)} nuevos idiomas."
+                    messagebox.showinfo(L.get("config.about.collab"), msg)
+            except ImportError:
+                messagebox.showwarning(L.get("config.about.check_btn"),
+                    "Se necesita la biblioteca 'requests'.\n"
+                    "Instalala con: pip install requests")
+            except Exception as e:
+                messagebox.showerror(L.get("config.about.collab"),
+                    f"Error: {e}")
 
         ttk.Button(frame,
                   text=self.lang.get("config.about.check_btn"),
